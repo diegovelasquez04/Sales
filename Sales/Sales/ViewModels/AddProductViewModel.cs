@@ -1,5 +1,6 @@
 ﻿namespace Sales.ViewModels
 {
+    using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -79,13 +80,13 @@
                     Languages.Accept);
                 return;
             }
-            this.isRunning = true;
+            this.IsRunning = true;
             this.IsEnabled = false;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.isRunning = false;
+                this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -106,7 +107,7 @@
 
             if (!response.IsSuccess)
             {
-                this.isRunning = false;
+                this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -115,7 +116,12 @@
                 return;
             }
 
-            this.isRunning = false;
+            var newProducts = (Product)response.Result;
+            var viewModel = ProductsViewModel.GetInstance();
+            viewModel.Products.Add(newProducts);
+
+
+            this.IsRunning = false;
             this.IsEnabled = true;
             await Application.Current.MainPage.Navigation.PopAsync();
         }
