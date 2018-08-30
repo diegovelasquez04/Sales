@@ -126,6 +126,6 @@
             await Application.Current.MainPage.Navigation.PopAsync();
         }
     }
-        #endregion
-    }
+    #endregion
 }
+

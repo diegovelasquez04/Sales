@@ -6,7 +6,7 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="{i18n:Translate Products}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="ic_action_add_circle.png" Command="{Binding AddProdctCommand}" />
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddProductCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
@@ -42,7 +42,7 @@
                                     <Label
                                     Text="{Binding Remarks}">
                                     </Label>
-                                </StackLayout>                           
+                                </StackLayout>
                                 <Label
                                     Grid.Column="2"
                                     HorizontalOptions="End"
