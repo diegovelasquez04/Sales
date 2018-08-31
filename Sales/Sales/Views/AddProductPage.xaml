@@ -4,7 +4,7 @@
              xmlns:i18n="clr-namespace:Sales.Helpers"
              x:Class="Sales.ViewModels.AddProductPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="{i18n:Translate AddProduct}">>
+             Title="{i18n:Translate AddProduct}">
     <ContentPage.Content>
         <ScrollView
             BindingContext="{Binding AddProduct}">
