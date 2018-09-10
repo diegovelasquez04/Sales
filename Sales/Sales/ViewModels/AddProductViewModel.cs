@@ -1,9 +1,12 @@
 ﻿namespace Sales.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
     using Sales.Common.Models;
     using Services;
     using Xamarin.Forms;
@@ -12,8 +15,10 @@
     {
         #region Attributes
         private ApiService apiService;
+        private MediaFile file;
         public bool isRunning;
         public bool isEnable;
+        public ImageSource imaseSource;
 
         #endregion
 
@@ -31,6 +36,12 @@
             get { return this.isEnable; }
             set { this.SetValue(ref this.isEnable, value); }
         }
+
+        public ImageSource ImageSource
+        {
+            get { return this.imaseSource; }
+            set { this.SetValue(ref this.imaseSource, value); }
+        }
         #endregion
 
         #region Constructors
@@ -38,11 +49,63 @@
         {
             this.apiService = new ApiService();
             this.IsEnabled = true;
+            this.ImageSource= "noproduct";
         }
 
         #endregion
 
         #region Commands
+        public ICommand ChangeImageCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeImage);
+            }
+        }
+
+        private async void ChangeImage()
+        {
+            await CrossMedia.Current.Initialize();
+
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                Languages.ImageSource,
+                Languages.Cancel,
+                null,
+                Languages.FromGallery,
+                Languages.NewPicture);
+
+            if (source == Languages.Cancel)
+            {
+                this.file = null;
+                return;
+            }
+
+            if (source == Languages.NewPicture)
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+                    }
+                );
+            }
+            else
+            {
+                this.file = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (this.file != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+                    return stream;
+                });
+            }
+        }
+
         public ICommand SaveCommand
         {
             get
