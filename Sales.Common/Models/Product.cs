@@ -2,6 +2,8 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class Product
     {
         [Key]
@@ -20,6 +22,8 @@
         [Display(Name = "Publish On")]
         [DataType(DataType.Date)]
         public DateTime PublishOn { get; set; }
+        [NotMapped]
+        public byte[] ImageArray { get; set; }
         public string ImageFullPath
         {
             get
@@ -29,7 +33,7 @@
                     return null;
                 }
 
-                return $"https://salesbackend.azurewebsites.net/{this.ImagePath.Substring(1)}";
+                return $"https://salesapiservices.azurewebsites.net/{this.ImagePath.Substring(1)}";
             }
 
         }
