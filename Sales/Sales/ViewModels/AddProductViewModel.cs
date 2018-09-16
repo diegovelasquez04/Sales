@@ -1,5 +1,6 @@
 ﻿namespace Sales.ViewModels
 {
+    using System;
     using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
@@ -197,12 +198,12 @@
 
             var newProduct = (Product)response.Result;
             var productsViewModel = ProductsViewModel.GetInstance();
-           // productsViewModel.MyProducts.Add(newProduct);
-           // productsViewModel.RefreshList();
+            productsViewModel.MyProducts.Add(newProduct);
+            productsViewModel.RefreshList();
 
             this.IsRunning = false;
             this.IsEnabled = true;
-           // await App.Navigator.PopAsync();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
         #endregion
     }

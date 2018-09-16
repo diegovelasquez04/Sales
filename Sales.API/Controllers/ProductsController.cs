@@ -12,7 +12,6 @@
     using Common.Models;
     using Domain.Models;
     using Sales.API.Helper;
-    using Sales.API.Helpers;
 
 
     public class ProductsController : ApiController
