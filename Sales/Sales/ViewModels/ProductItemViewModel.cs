@@ -16,12 +16,12 @@
         #region Attributes
         private ApiService apiService;
         #endregion
+
+        #region Constructors
         public ProductItemViewModel()
         {
             this.apiService = new ApiService();
         }
-        #region Constructors
-
         #endregion
 
         #region Commands
